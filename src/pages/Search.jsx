@@ -1,49 +1,46 @@
-import { useEffect, useState } from "react"
+import { useContext } from "react"
 import LocationSearchBox from "../components/shared/LocationSearchBox"
-import Predict from "../components/Predict"
-import useLocalStorage from "../hooks/useLocalStorage"
-import { getBulkWeatherData } from "../context/WeatherActions"
 import SavedWeatherCard from "../components/SavedWeatherCard"
+import SearchResult from "../components/SearchResult"
+import SearchContext from "../context/search/SearchContext"
 
 
 function Search() {
-    const [savedLocations, setSavedLocations] = useLocalStorage('savedLocations', [])
-    const [searchGeolocation, setSearchGeolocation] = useState(null)
-    const [savedWeatherData, setSavedWeatherData] = useState([])
-
-    useEffect(() => {
-        const getWeatherData = async () => {
-            const data = await getBulkWeatherData(savedLocations)
-            setSavedWeatherData(data)
-        }
-        getWeatherData()
-    }, [])
+    const {searchGeolocation, savedWeatherData, dispatch} = useContext(SearchContext)
 
     const locationSelected = async (geolocation) => {
-        setSearchGeolocation(geolocation)
+        dispatch({
+            type: 'SET_SEARCH_GEOLOCATION',
+            payload: geolocation
+        })
     }
 
-    const pinWeatherSearchResult = ({geolocation, weatherData}) => {
+    const addToSavedLocations = (geolocation, weatherData) => {
         if (savedWeatherData.length >= 5) {
             alert('You can only pin 5 items')
             return
         }
-        if (!(savedLocations.some(loc => loc.state === geolocation.state && loc.countryCode === geolocation.countryCode))) {
-            setSavedLocations(prev => ([...prev, {...geolocation}]))
-            setSavedWeatherData(prev => [...prev, {...geolocation, weatherData}])
+        if (!(savedWeatherData.some(loc => loc.state === geolocation.state && loc.countryCode === geolocation.countryCode))) {
+            dispatch({
+                type: 'SET_LOCATIONS',
+                payload: [...savedWeatherData, {...geolocation, weatherData}]
+            })
+            localStorage.setItem("savedLocations", JSON.stringify([
+                ...savedWeatherData.map(element => (delete element.weatherData)),
+                geolocation
+            ]))
+            // Add to Local Storage
         }
-        setSearchGeolocation(null)
-        // Move tile to bottom and clear input
     }
 
-    const unpinWeatherSearchResult = ({state, countryCode}) => {
-        setSavedWeatherData(prev => (
-            prev.filter(pinned => !(pinned.state === state && pinned.countryCode === countryCode))
-        ))
-
-        setSavedLocations(prev => (
-            prev.filter(pinned => !(pinned.state === state && pinned.countryCode === countryCode))    
-        ))
+    const removeFromSavedLocations = (state, countryCode) => {
+        const savedWeatherDataCopy = savedWeatherData.filter(pinned => !(pinned.state === state && pinned.countryCode === countryCode))
+        dispatch({
+            type: 'SET_LOCATIONS',
+            payload: savedWeatherDataCopy
+        })
+        savedWeatherDataCopy.map(element => delete element.weatherData)
+        localStorage.setItem("savedLocations", JSON.stringify(savedWeatherDataCopy))
     }
 
     return (<div>
@@ -51,11 +48,11 @@ function Search() {
             <p className="text-3xl">Pick A Location</p>
             <p className="text-sm">Search by area or city to see weather information</p>
             <div className="my-4">
-                <LocationSearchBox locationSelected={locationSelected}/>
+                <LocationSearchBox keyword={"Test"} locationSelected={locationSelected}/>
             </div>
         </header>
         <main>
-            {searchGeolocation !== null && <Predict geolocation={searchGeolocation} pinWeatherSearchResult={pinWeatherSearchResult}/>}
+            {searchGeolocation !== null && <SearchResult geolocation={searchGeolocation} addToSavedLocations={addToSavedLocations}/>}
             <div className="grid gap-5 grid-cols-2 mt-5">
                 {savedWeatherData.map((locationData, index) => (
                     <div key={index} className="">
@@ -63,7 +60,7 @@ function Search() {
                             state={locationData.state}
                             countryCode={locationData.countryCode}
                             weatherData={locationData.weatherData}
-                            unpinWeatherSearchResult={unpinWeatherSearchResult}
+                            removeFromSavedLocations={removeFromSavedLocations}
                         />
                     </div>
                 ))}

@@ -1,9 +1,7 @@
-import { useState } from "react"
-import { Routes, Route, useLocation, useNavigate, Link } from "react-router-dom";
 import { MdClose } from "react-icons/md"
 
 
-function SavedWeatherCard({ state, countryCode, weatherData, unpinWeatherSearchResult }) {
+function SavedWeatherCard({ state, countryCode, weatherData, removeFromSavedLocations }) {
   const { temp, icon, main } = {...weatherData}
 
   return (
@@ -27,7 +25,7 @@ function SavedWeatherCard({ state, countryCode, weatherData, unpinWeatherSearchR
         </div>
       </div>
       <div className="">
-        <button className="p-1 outline-none" onClick={() => unpinWeatherSearchResult({state, countryCode})}>
+        <button className="p-1 outline-none" onClick={() => removeFromSavedLocations(state, countryCode)}>
           <MdClose size={15}/>
         </button>
       </div>

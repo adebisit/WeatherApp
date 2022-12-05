@@ -1,39 +1,13 @@
-import { useState } from "react"
-import { useEffect } from "react"
-import HourlyWeatherCard from "../components/HourlyWeatherCard"
-import { getForecastData } from "../context/WeatherActions"
-import { friendlyTodaysDate } from "../utils/utils"
+import { useContext } from "react"
 import { FaCalendarAlt } from "react-icons/fa"
+import WeatherContext from "../context/weather/WeatherContext"
+import HourlyWeatherCard from "../components/HourlyWeatherCard"
 import DailyWeatherCard from "../components/DailyWeatherCard"
+import { friendlyTodaysDate } from "../utils/utils"
 
 
 function Forecast() {
-    const [geolocation, setGeolocation] = useState(null)
-    const [hourlyData, setHourlyData] = useState([])
-    const [dailyForecast, setDailyForecast] = useState([])
-
-    const {lat, lon} = {...geolocation}
-
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setGeolocation({lat: pos.coords.latitude, lon: pos.coords.longitude})
-            },
-            () => {
-                alert("Couldn't determine location")
-            }
-        )
-    }, [])
-
-    useEffect(() => {
-        const getData = async () => {
-            const { hourlyData, dailyData} = await getForecastData(lat, lon, 7)
-            console.log(dailyData)
-            setHourlyData(hourlyData)
-            setDailyForecast(dailyData)            
-        }
-        geolocation !== null && getData()
-    }, [geolocation])
+    const { hourlyForecast, dailyForecast } = useContext(WeatherContext)
 
     return <div>
         <header className="text-center pt-4 pb-6">
@@ -46,7 +20,7 @@ function Forecast() {
                     <p className="text-sm">{ friendlyTodaysDate() }</p>
                 </div>
                 <div className="mt-4 grid gap-4 grid-flow-col overflow-auto -mr-2">
-                    {hourlyData.map((element, index) => <HourlyWeatherCard key={index} weather={element} selected={index === 0} />)}
+                    {hourlyForecast.map((element, index) => <HourlyWeatherCard key={index} weather={element} selected={index === 0} />)}
                 </div>
             </div>
             <div className="mt-10">

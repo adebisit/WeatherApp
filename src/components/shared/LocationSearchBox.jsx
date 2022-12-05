@@ -5,7 +5,7 @@ import { reverseGeoding } from "../../context/GeolocationActions"
 
 
 function LocationSearchBox({ locationSelected }) {
-    const [keyword, setKeyword] = useState('')
+    const [keyword, setKeyword] = useState()
     const autoCompleteRef = useRef(null)
     const inputRef = useRef()
     const options = {
@@ -15,7 +15,6 @@ function LocationSearchBox({ locationSelected }) {
 
     useEffect(() => {
         autoCompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, options);
-
         autoCompleteRef.current.addListener("place_changed", async function () {
             const place = await autoCompleteRef.current.getPlace();
             const components = place.address_components

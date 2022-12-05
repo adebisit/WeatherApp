@@ -1,41 +1,16 @@
-import { useState, useEffect } from "react"
-import { Routes, Route, useLocation, useNavigate, Link } from "react-router-dom";
-import Predict from "../components/Predict";
-import AirQuality from "../components/AirQuality";
-import HourlyWeatherCard from "../components/HourlyWeatherCard";
-import { getHourlyWeatherForecast } from "../context/WeatherActions"
+import { useContext } from "react"
+import { Routes, Route, useLocation, useNavigate, Link } from "react-router-dom"
+import Predict from "../components/Predict"
+import AirQuality from "../components/AirQuality"
+import HourlyWeatherCard from "../components/HourlyWeatherCard"
+import WeatherContext from '../context/weather/WeatherContext'
 import { friendlyTodaysDate } from "../utils/utils"
 
 
 function Home() {
     const location = useLocation()
     const navigate = useNavigate()
-    const [hourlyData, setHourlyData] = useState([])
-    const [geolocation, setGeolocation] = useState(null)
-    const {lat, lon} = {...geolocation}
-    
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setGeolocation({lat: pos.coords.latitude, lon: pos.coords.longitude})
-            },
-            () => {
-                alert("Couldn't determine location")
-            }
-
-        )
-    }, [])
-
-    useEffect(() => {
-        const getWeatherData = async () => {
-            const hourData = await getHourlyWeatherForecast(lat, lon)
-            setHourlyData(hourData)
-        }
-        if (geolocation !== null) { 
-            getWeatherData()
-        }
-    }, [geolocation])
-
+    const {currentWeather, hourlyForecast, pollutantComponents} = useContext(WeatherContext)
 
     return (
         <div>
@@ -64,8 +39,8 @@ function Home() {
                 </div>
                 <div className="my-8">
                     <Routes>
-                        <Route path='/predict' element={<Predict geolocation={geolocation} />} />
-                        <Route path='/air-quality' element={<AirQuality geolocation={geolocation} />} />
+                        <Route path='/predict' element={<Predict weatherData={currentWeather} />} />
+                        <Route path='/air-quality' element={<AirQuality components={pollutantComponents} />} />
                     </Routes>
                 </div>
                 <div className="my-16">
@@ -74,7 +49,7 @@ function Home() {
                         <Link to="/" className="font-bold" style={{color: "#1B86E6"}}>View full report</Link>
                     </div>
                     <div className="mt-8 grid gap-4 grid-flow-col overflow-auto">
-                        {hourlyData.map((element, index) => <HourlyWeatherCard key={index} weather={element} selected={index === 0} />)}
+                        {hourlyForecast.map((element, index) => <HourlyWeatherCard key={index} weather={element} selected={index === 0} />)}
                     </div>
                 </div>
             </main>
