@@ -1,3 +1,5 @@
+import MeasurementDisplay from "./shared/MeasurementDisplay"
+
 function HourlyWeatherCard({weather, selected}) {
   return (
     <div
@@ -11,7 +13,10 @@ function HourlyWeatherCard({weather, selected}) {
             <p className="text-sm">{weather.dt}</p>
         </div>
         <div className="grid-cols-2 grid-rows-2">
-            <p className="text-base font-bold">{weather.temp}&#176;</p>
+            <p className="text-base font-bold text-xs">
+                {/* {weather.temp}&#176; */}
+                <MeasurementDisplay value={weather.temp} variable='temperature' />
+            </p>
         </div>
     </div>
   )

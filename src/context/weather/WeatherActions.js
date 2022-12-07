@@ -20,12 +20,12 @@ export const reverseGeocoding = async (lat, lon) => {
 }
 
 
-export const fetchWeatherData = (lat, lon) => {
+export const fetchWeatherData = (lat, lon, units) => {
     const params = new URLSearchParams({
         lat,
         lon,
+        units: units ?? "standard",
         appid: OPEN_WEATHER_API,
-        units: 'metric'
     })
     return openWeather.get(`/data/3.0/onecall?${params}`)
 }
@@ -41,9 +41,9 @@ export const fetchAirQualityData = async (lat, lon) => {
 }
 
 
-export const getBulkWeatherData = (geolocations) => {
+export const getBulkWeatherData = (geolocations, units="standard") => {
     return Promise.allSettled(geolocations.map(
-        ({lat, lon}) => fetchWeatherData(lat, lon))
+        ({lat, lon}) => fetchWeatherData(lat, lon, units))
     ).then((responses) => 
         responses.filter(resp => resp.status === 'fulfilled').map((resp, i) => ({
             ...geolocations[i],
@@ -62,9 +62,9 @@ export const getBulkWeatherData = (geolocations) => {
 }
 
 
-export const getWeatherData = (lat, lon) => {
+export const getWeatherData = (lat, lon, units="standard") => {
     return Promise.allSettled([
-        fetchWeatherData(lat, lon),
+        fetchWeatherData(lat, lon, units),
         fetchAirQualityData(lat, lon)
     ]).then((responses) => {
         const weatherData = responses[0].status === 'fulfilled' ? responses[0].value.data : null

@@ -1,11 +1,13 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import searchReducer from "./SearchReducer";
 import { getBulkWeatherData } from "../weather/WeatherActions";
+import WeatherContext from "../weather/WeatherContext";
 
 
 const SearchContext = createContext()
 
 export const SearchProvider = ({ children }) => {
+    const {units} = useContext(WeatherContext)
     const initialState = {
         searchGeolocation: null,
         savedWeatherData: []
@@ -20,7 +22,7 @@ export const SearchProvider = ({ children }) => {
                 savedLocations = []
                 localStorage.setItem("savedLocations", JSON.stringify([]))
             }
-            const data = await getBulkWeatherData(savedLocations)
+            const data = await getBulkWeatherData(savedLocations, units)
             dispatch({
                 type: 'SET_LOCATIONS',
                 payload: data

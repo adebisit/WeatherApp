@@ -6,6 +6,7 @@ import Settings from "./pages/Settings";
 import Navbar from "./components/layout/Navbar";
 import { WeatherProvider } from "./context/weather/WeatherContext";
 import { SearchProvider } from "./context/search/SearchContext";
+import Predict from "./components/Predict";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
                   <Route path='/*' element={<Home />} />
                   <Route path='/search' element={<Search />} />
                   <Route path='/forecast' element={<Forecast />} />
-                  <Route path='/settings' element={<Settings />} />
+                  <Route path='/settings/*' element={<Settings />} />
                 </Routes>
               </main>
             </div>

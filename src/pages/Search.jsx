@@ -16,6 +16,9 @@ function Search() {
     }
 
     const addToSavedLocations = (geolocation, weatherData) => {
+        console.log(geolocation)
+        console.log(weatherData)
+        console.log(savedWeatherData)
         if (savedWeatherData.length >= 5) {
             alert('You can only pin 5 items')
             return
@@ -25,12 +28,14 @@ function Search() {
                 type: 'SET_LOCATIONS',
                 payload: [...savedWeatherData, {...geolocation, weatherData}]
             })
-            localStorage.setItem("savedLocations", JSON.stringify([
-                ...savedWeatherData.map(element => (delete element.weatherData)),
-                geolocation
-            ]))
-            // Add to Local Storage
+
+            const save = []
+            localStorage.setItem("savedLocations", JSON.stringify([...savedWeatherData, geolocation]))
         }
+        dispatch({
+            type: 'SET_SEARCH_GEOLOCATION',
+            payload: null
+        })
     }
 
     const removeFromSavedLocations = (state, countryCode) => {
@@ -39,7 +44,7 @@ function Search() {
             type: 'SET_LOCATIONS',
             payload: savedWeatherDataCopy
         })
-        savedWeatherDataCopy.map(element => delete element.weatherData)
+        // savedWeatherDataCopy.map(element => delete element.weatherData)
         localStorage.setItem("savedLocations", JSON.stringify(savedWeatherDataCopy))
     }
 

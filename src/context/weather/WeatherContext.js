@@ -1,44 +1,54 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useReducer } from "react";
 import { getWeatherData } from "../../context/weather/WeatherActions"
+import weatherReducer from "./WeatherReducer"
+
 
 const WeatherContext = createContext()
 
 export const WeatherProvider = ({ children }) => {
-    const [geolocation, setGeolocation] = useState(null)
+    const initialSettings = {
+        geolocation: null,
+        units: "imperial"
+    }
+
+    const [state, dispatch] = useReducer(weatherReducer, initialSettings)
     const [currentWeather, setCurrentWeather] = useState(null)
     const [pollutantComponents, setPollutantComponents] = useState([])
     const [hourlyForecast, setHourlyForecast] = useState([])
     const [dailyForecast, setDailyForecast] = useState([])
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setGeolocation({lat: pos.coords.latitude, lon: pos.coords.longitude})
-            },
-            () => {
-                alert("Couldn't determine location")
-            }
-
-        )
+        const geolocation = JSON.parse(localStorage.getItem("geolocation"))
+        const units = localStorage.getItem('units') ?? "standard"
+        dispatch({
+            type: "UPDATE_SETTINGS",
+            payload: {
+                geolocation,
+                units
+            }            
+        })
     }, [])
 
     useEffect(() => {
         const getData = async () => {
-            const {currentData, hourData, dailyData, pollutantComponents} = await getWeatherData(geolocation.lat, geolocation.lon)
+            const {lat, lon} = {...state.geolocation}
+            const units = state.units
+            const {currentData, hourData, dailyData, pollutantComponents} = await getWeatherData(lat, lon, units)
             setCurrentWeather(currentData)
             setHourlyForecast(hourData)
             setDailyForecast(dailyData)
             setPollutantComponents(pollutantComponents)
         }
-        geolocation !== null && getData()
-    }, [geolocation])
+        state.geolocation !== null && getData()
+    }, [state.geolocation])
 
     return <WeatherContext.Provider value={{
-        geolocation,
         currentWeather,
         hourlyForecast,
         dailyForecast,
-        pollutantComponents
+        pollutantComponents,
+        ...state,
+        dispatch
     }}>
         {children}
     </WeatherContext.Provider>

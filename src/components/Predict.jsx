@@ -1,3 +1,6 @@
+import MeasurementDisplay from "./shared/MeasurementDisplay"
+
+
 function Predict({ weatherData }) {
     const { temp, wind_speed, humidity, icon, main, description } = {...weatherData}
 
@@ -13,11 +16,17 @@ function Predict({ weatherData }) {
             <div className="flex w-5/6 mx-auto justify-between">
                 <div className="text-center">
                     <p className="font-light">Temp</p>
-                    <p className="font-bold">{temp}&#176;</p>
+                    <p className="font-bold">
+                        <MeasurementDisplay value={temp} variable='temperature' />
+                        {/* {temp}&#176; */}
+                    </p>
                 </div>
                 <div className="text-center">
                     <p className="font-light">Wind</p>
-                    <p className="font-bold">{wind_speed} m/h</p>
+                    <p className="font-bold">
+                        {/* {wind_speed} m/h */}
+                        <MeasurementDisplay value={wind_speed} variable='windSpeed' />
+                    </p>
                 </div>
                 <div className="text-center">
                     <p className="font-light">Humidity</p>

@@ -1,4 +1,5 @@
 import { MdClose } from "react-icons/md"
+import MeasurementDisplay from "./shared/MeasurementDisplay"
 
 
 function SavedWeatherCard({ state, countryCode, weatherData, removeFromSavedLocations }) {
@@ -12,7 +13,10 @@ function SavedWeatherCard({ state, countryCode, weatherData, removeFromSavedLoca
       <div className="w-full">
         <div className="flex justify-between">
           <div className="text-left">
-            <p>{temp}&#176;</p>
+            <p>
+              <MeasurementDisplay value={temp} variable='temperature' />
+              {/* {temp}&#176; */}
+            </p>
             <p className="font-thin text-sm">{main}</p>
           </div>
           <div className="text-left">

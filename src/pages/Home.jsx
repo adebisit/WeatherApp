@@ -10,13 +10,16 @@ import { friendlyTodaysDate } from "../utils/utils"
 function Home() {
     const location = useLocation()
     const navigate = useNavigate()
+    const {geolocation} = useContext(WeatherContext)
+    const {state, countryCode} = {...geolocation}
+    
     const {currentWeather, hourlyForecast, pollutantComponents} = useContext(WeatherContext)
 
     return (
         <div>
             <header>
                 <div className="text-center mb-8">
-                    <h4 className="text-4xl pb-2">New York</h4>
+                    <h4 className="text-4xl pb-2">{state}, <span className="text-lg">{countryCode}</span></h4>
                     <p className="text-sm">{ friendlyTodaysDate() }</p>
                 </div>
             </header>
@@ -24,7 +27,7 @@ function Home() {
                 <div className="flex w-8/12 m-auto rounded-xl" style={{backgroundColor: '#171642'}}>
                     <button
                         className={`flex-1 p-3 text-center rounded-xl focus:outline-none ${location.pathname === '/predict' && 'shadow-md shadow-inner'}`}
-                        style={{backgroundColor: location.pathname === '/predict' && '#1B86E6'}}
+                        style={{backgroundColor: (location.pathname === '/predict' || location.pathname == '/') && '#1B86E6'}}
                         onClick={() => navigate('/predict')}
                     >
                         Forecast
@@ -39,6 +42,7 @@ function Home() {
                 </div>
                 <div className="my-8">
                     <Routes>
+                        <Route index element={<Predict weatherData={currentWeather} />} />
                         <Route path='/predict' element={<Predict weatherData={currentWeather} />} />
                         <Route path='/air-quality' element={<AirQuality components={pollutantComponents} />} />
                     </Routes>

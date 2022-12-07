@@ -1,3 +1,6 @@
+import MeasurementDisplay from "./shared/MeasurementDisplay"
+
+
 function DailyWeatherCard({ weatherData }) {
     const {day, dt, icon, temp} = {...weatherData}
     return (
@@ -7,7 +10,11 @@ function DailyWeatherCard({ weatherData }) {
                 <p className="font-light text-sm">{dt}</p>
             </div>
             <div className="">
-                <p className="text-4xl">{temp}<sup>&#176;C</sup></p>
+                
+                <div className="text-4xl">
+                    <MeasurementDisplay value={temp} variable='temperature' />
+                </div>
+                {/* <p className="text-4xl">{temp}<sup>&#176;C</sup></p> */}
             </div>
             <div className="">
                 <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather"/>
