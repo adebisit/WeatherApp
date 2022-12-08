@@ -14,7 +14,6 @@ function HourlyWeatherCard({weather, selected}) {
         </div>
         <div className="grid-cols-2 grid-rows-2">
             <p className="text-base font-bold text-xs">
-                {/* {weather.temp}&#176; */}
                 <MeasurementDisplay value={weather.temp} variable='temperature' />
             </p>
         </div>

@@ -16,9 +16,6 @@ function Search() {
     }
 
     const addToSavedLocations = (geolocation, weatherData) => {
-        console.log(geolocation)
-        console.log(weatherData)
-        console.log(savedWeatherData)
         if (savedWeatherData.length >= 5) {
             alert('You can only pin 5 items')
             return
@@ -28,8 +25,6 @@ function Search() {
                 type: 'SET_LOCATIONS',
                 payload: [...savedWeatherData, {...geolocation, weatherData}]
             })
-
-            const save = []
             localStorage.setItem("savedLocations", JSON.stringify([...savedWeatherData, geolocation]))
         }
         dispatch({

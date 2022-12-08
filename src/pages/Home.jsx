@@ -1,10 +1,10 @@
 import { useContext } from "react"
 import { Routes, Route, useLocation, useNavigate, Link } from "react-router-dom"
+import { friendlyTodaysDate } from "../utils/utils"
 import Predict from "../components/Predict"
 import AirQuality from "../components/AirQuality"
 import HourlyWeatherCard from "../components/HourlyWeatherCard"
 import WeatherContext from '../context/weather/WeatherContext'
-import { friendlyTodaysDate } from "../utils/utils"
 
 
 function Home() {
@@ -27,7 +27,7 @@ function Home() {
                 <div className="flex w-8/12 m-auto rounded-xl" style={{backgroundColor: '#171642'}}>
                     <button
                         className={`flex-1 p-3 text-center rounded-xl focus:outline-none ${location.pathname === '/predict' && 'shadow-md shadow-inner'}`}
-                        style={{backgroundColor: (location.pathname === '/predict' || location.pathname == '/') && '#1B86E6'}}
+                        style={{backgroundColor: (location.pathname === '/predict' || location.pathname === '/') && '#1B86E6'}}
                         onClick={() => navigate('/predict')}
                     >
                         Forecast

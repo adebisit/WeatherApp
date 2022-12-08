@@ -52,11 +52,9 @@ function LocationSearchBox({ exact, locationSelected, initialInput }) {
             locationSelected(locationData)
             setLocation(locationData)
            });
+        // eslint-disable-next-line
     }, [])
 
-    const placeSelected = () => {
-        
-    }
     const getCurrentGeolocation = async (e) => {
         e.preventDefault()
         navigator.geolocation.getCurrentPosition(

@@ -29,6 +29,7 @@ export const SearchProvider = ({ children }) => {
             })
         }
         getData()
+        // eslint-disable-next-line
     }, [])
 
     return <SearchContext.Provider value={{

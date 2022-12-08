@@ -14,6 +14,7 @@ function MeasurementDisplay({ value, variable }) {
                 case 'standard': output = (<sup>K</sup>); break;
                 case "metric": output = (<sup>&#8451;</sup>);  break;
                 case "imperial": output = (<sup>&#8457;</sup>);  break;
+                default: output = (<sup>NaN</sup>)
             }
         }
         return output
@@ -22,7 +23,6 @@ function MeasurementDisplay({ value, variable }) {
         <span style={{ fontSize: 'inherit' }}>
             {value}{(variable === 'windSpeed' || units === 'standard') && ' '}
             { getUnit() }
-            {/* { (variable === 'temperature' && units !== 'standard') ? (<sup>{getUnit()}</sup>) : getUnit() } */}
         </span>
     )
 }

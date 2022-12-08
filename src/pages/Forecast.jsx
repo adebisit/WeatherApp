@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import { FaCalendarAlt } from "react-icons/fa"
+import { friendlyTodaysDate } from "../utils/utils"
 import WeatherContext from "../context/weather/WeatherContext"
 import HourlyWeatherCard from "../components/HourlyWeatherCard"
 import DailyWeatherCard from "../components/DailyWeatherCard"
-import { friendlyTodaysDate } from "../utils/utils"
 
 
 function Forecast() {

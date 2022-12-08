@@ -15,7 +15,6 @@ function SavedWeatherCard({ state, countryCode, weatherData, removeFromSavedLoca
           <div className="text-left">
             <p>
               <MeasurementDisplay value={temp} variable='temperature' />
-              {/* {temp}&#176; */}
             </p>
             <p className="font-thin text-sm">{main}</p>
           </div>

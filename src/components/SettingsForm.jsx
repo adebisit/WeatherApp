@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import LocationSearchBox from "./shared/LocationSearchBox"
-import { TbEdit } from 'react-icons/tb'
 import WeatherContext from "../context/weather/WeatherContext"
 import { useState } from "react"
 
@@ -14,8 +13,6 @@ function SettingsForm({ initialValues }) {
 
     const updateSettings = (e) => {
         e.preventDefault()
-        // const {lat, lon, formattedAddress} = {...geolocation}
-        console.log(geolocation)
         dispatch({
             type: 'UPDATE_SETTINGS',
             payload: {
@@ -38,7 +35,7 @@ function SettingsForm({ initialValues }) {
                 <div className="">
                     <LocationSearchBox exact initialInput={initialValues.geolocation} locationSelected={locationSelected}/>
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 flex justify-center">
                     <select
                         value={units}
                         className="text-white p-2 pr-4 rounded-md text-sm border-solid border-white border"

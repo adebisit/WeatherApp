@@ -27,6 +27,7 @@ export const WeatherProvider = ({ children }) => {
                 units
             }            
         })
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -40,6 +41,7 @@ export const WeatherProvider = ({ children }) => {
             setPollutantComponents(pollutantComponents)
         }
         state.geolocation !== null && getData()
+        // eslint-disable-next-line
     }, [state.geolocation])
 
     return <WeatherContext.Provider value={{

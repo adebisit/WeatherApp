@@ -6,7 +6,6 @@ import Settings from "./pages/Settings";
 import Navbar from "./components/layout/Navbar";
 import { WeatherProvider } from "./context/weather/WeatherContext";
 import { SearchProvider } from "./context/search/SearchContext";
-import Predict from "./components/Predict";
 
 
 function App() {
