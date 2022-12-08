@@ -3,8 +3,11 @@ import MeasurementDisplay from "./shared/MeasurementDisplay"
 function HourlyWeatherCard({weather, selected}) {
   return (
     <div
-        className="grid w-40 gap-1 grid-cols-2 p-3 rounded-xl focus:outline-none shadow-md shadow-inner"
-        style={{backgroundColor: selected ? '#1B86E6' : '#171642'}}
+        className="grid gap-1 grid-cols-2 p-3 rounded-xl focus:outline-none shadow-md shadow-inner"
+        style={{
+            minWidth: '11rem',
+            backgroundColor: selected ? '#1B86E6' : '#171642'
+        }}
     >
         <div className="row-span-2 grid-cols-1">
             <img className="m-auto" src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt='temp'/>
