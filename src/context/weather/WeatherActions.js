@@ -2,7 +2,7 @@ import axios from "axios";
 
 const OPEN_WEATHER_API = process.env.REACT_APP_OPEN_WEATHER_API
 const openWeather = axios.create({
-    baseURL: 'http://api.openweathermap.org'
+    baseURL: 'https://api.openweathermap.org'
 })
 
 
