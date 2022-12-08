@@ -7,7 +7,7 @@ function HourlyWeatherCard({weather, selected}) {
         style={{backgroundColor: selected ? '#1B86E6' : '#171642'}}
     >
         <div className="row-span-2 grid-cols-1">
-            <img className="m-auto" src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt='temp'/>
+            <img className="m-auto" src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt='temp'/>
         </div>
         <div className="grid-cols-2 grid-rows-1">
             <p className="text-sm">{weather.dt}</p>

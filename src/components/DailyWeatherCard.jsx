@@ -16,7 +16,7 @@ function DailyWeatherCard({ weatherData }) {
                 </div>
             </div>
             <div className="">
-                <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather"/>
+                <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather"/>
             </div>
         </div>
     )
