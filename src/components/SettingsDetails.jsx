@@ -7,15 +7,28 @@ import { Link } from "react-router-dom"
 function SettingsDetails() {
     const {geolocation, units} = useContext(WeatherContext)
     
+    const getUnitChoice = () => {
+        switch(units) {
+            case 'standard': return ["Standard", "Kelvin, Meter/Second"]
+            case 'metric': return ["Celcius", "°C, Meter/Second"]
+            case 'imperial': return ["Farenhiet", "°F, Miles/Second"]
+            default: return [units, ""]
+        }
+    }
+
+    const [variable, unitForamt] = getUnitChoice()
+
     return (
         <div className="">
             <div className="flex justify-center items-center mb-3">
-                <MdLocationOn size={15} className="mr-3"/>
-                <p className="text-xl overflow-auto">{geolocation?.formattedAddress}</p>
+                <MdLocationOn size={18} className="mr-2"/>
+                <p className="text-xl overflow-auto text-center">{geolocation?.formattedAddress}</p>
             </div>
-            <div className="flex justify-center">
-                <p className="mr-2 text-md">Units: </p>
-                <p className="text-md">{units}</p>
+            <div className="text-center">
+                <p>
+                    <span className="text-md font-medium">{variable}</span>
+                    <span className="ml-1 text-sm font-light">({unitForamt})</span>
+                </p>
             </div>
             <div className="mt-3 text-center">
                 <Link to="edit" className="underline">
