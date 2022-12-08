@@ -42,7 +42,7 @@ export const WeatherProvider = ({ children }) => {
         }
         state.geolocation !== null && getData()
         // eslint-disable-next-line
-    }, [state.geolocation])
+    }, [state.geolocation, state.units])
 
     return <WeatherContext.Provider value={{
         currentWeather,
