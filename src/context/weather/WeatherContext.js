@@ -7,8 +7,8 @@ const WeatherContext = createContext()
 
 export const WeatherProvider = ({ children }) => {
     const initialSettings = {
-        geolocation: null,
-        units: "imperial"
+        geolocation: JSON.parse(localStorage.getItem("geolocation")),
+        units: localStorage.getItem('units') ?? "standard"
     }
 
     const [state, dispatch] = useReducer(weatherReducer, initialSettings)
@@ -18,18 +18,18 @@ export const WeatherProvider = ({ children }) => {
     const [dailyForecast, setDailyForecast] = useState([])
     const [weatherDataLoading, setWeatherDataLoading] = useState(true)
 
-    useEffect(() => {
-        const geolocation = JSON.parse(localStorage.getItem("geolocation"))
-        const units = localStorage.getItem('units') ?? "standard"
-        dispatch({
-            type: "UPDATE_SETTINGS",
-            payload: {
-                geolocation,
-                units
-            }            
-        })
-        // eslint-disable-next-line
-    }, [])
+    // useEffect(() => {
+    //     const geolocation = JSON.parse(localStorage.getItem("geolocation"))
+    //     const units = localStorage.getItem('units') ?? "standard"
+    //     dispatch({
+    //         type: "UPDATE_SETTINGS",
+    //         payload: {
+    //             geolocation,
+    //             units
+    //         }            
+    //     })
+    //     // eslint-disable-next-line
+    // }, [])
 
     useEffect(() => {
         const getData = async () => {
