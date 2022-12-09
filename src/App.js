@@ -6,6 +6,8 @@ import Settings from "./pages/Settings";
 import Navbar from "./components/layout/Navbar";
 import { WeatherProvider } from "./context/weather/WeatherContext";
 import { SearchProvider } from "./context/search/SearchContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
                 </Routes>
               </main>
             </div>
+            <ToastContainer autoClose={8000} className="toastPopUp"/>
             <Navbar />
           </Router>
         </SearchProvider>

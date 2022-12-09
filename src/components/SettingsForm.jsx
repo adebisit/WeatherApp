@@ -10,7 +10,7 @@ function SettingsForm({ initialValues }) {
     const {dispatch} = useContext(WeatherContext)
     const [geolocation, setGeolocation] = useState(initialValues.geolocation)
     const [units, setUnits] = useState(initialValues.units)
-
+    
     const updateSettings = (e) => {
         e.preventDefault()
         dispatch({

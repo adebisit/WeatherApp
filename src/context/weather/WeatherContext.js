@@ -16,6 +16,7 @@ export const WeatherProvider = ({ children }) => {
     const [pollutantComponents, setPollutantComponents] = useState([])
     const [hourlyForecast, setHourlyForecast] = useState([])
     const [dailyForecast, setDailyForecast] = useState([])
+    const [weatherDataLoading, setWeatherDataLoading] = useState(true)
 
     useEffect(() => {
         const geolocation = JSON.parse(localStorage.getItem("geolocation"))
@@ -39,12 +40,14 @@ export const WeatherProvider = ({ children }) => {
             setHourlyForecast(hourData)
             setDailyForecast(dailyData)
             setPollutantComponents(pollutantComponents)
+            setWeatherDataLoading(false)
         }
         state.geolocation !== null && getData()
         // eslint-disable-next-line
     }, [state.geolocation, state.units])
 
     return <WeatherContext.Provider value={{
+        weatherDataLoading,
         currentWeather,
         hourlyForecast,
         dailyForecast,

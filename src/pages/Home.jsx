@@ -5,16 +5,36 @@ import Predict from "../components/Predict"
 import AirQuality from "../components/AirQuality"
 import HourlyWeatherCard from "../components/HourlyWeatherCard"
 import WeatherContext from '../context/weather/WeatherContext'
+import { Oval } from "react-loader-spinner"
+import { toast } from "react-toastify"
+import { useEffect } from "react"
 
 
 function Home() {
     const location = useLocation()
     const navigate = useNavigate()
-    const {geolocation} = useContext(WeatherContext)
+    const {geolocation, weatherDataLoading} = useContext(WeatherContext)
     const {state, countryCode} = {...geolocation}
     
     const {currentWeather, hourlyForecast, pollutantComponents} = useContext(WeatherContext)
-
+    useEffect(() => {
+        if (geolocation === null) {
+            toast.error('Please set default location first.')
+            navigate('/settings/edit')
+        }
+        // eslint-disable-next-line
+    }, [geolocation])
+    if (weatherDataLoading) {
+        return <Oval
+            height={60}
+            width={60}
+            color="white"
+            wrapperClass="flex justify-center items-center my-48"
+            secondaryColor="white"
+            strokeWidth={3}
+            strokeWidthSecondary={3}
+        />
+    }
     return (
         <div>
             <header>

@@ -10,8 +10,8 @@ function SettingsDetails() {
     const getUnitChoice = () => {
         switch(units) {
             case 'standard': return ["Standard", "Kelvin, Meter/Second"]
-            case 'metric': return ["Celcius", "°C, Meter/Second"]
-            case 'imperial': return ["Farenhiet", "°F, Miles/Second"]
+            case 'metric': return ["Metric", "°C, Meter/Second"]
+            case 'imperial': return ["Imperial", "°F, Miles/Second"]
             default: return [units, ""]
         }
     }

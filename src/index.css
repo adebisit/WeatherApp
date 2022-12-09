@@ -43,18 +43,30 @@ code {
 
 
 .pac-container {
-    background-color: #060621;
-    font-weight: 400;
-    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; */
- }
+  background-color: #060621;
+  font-weight: 400;
+}
 
-
- .pac-item, .pac-item-query {
-    color: #f7f7f7;
-    font-size: 14px;
-    font-weight: lighter;
- }
+.pac-item, .pac-item-query {
+  color: #f7f7f7;
+  font-size: 14px;
+  font-weight: lighter;
+}
  
- .pac-item:hover {
-    background: #6666;
- }
+.pac-item:hover {
+  background: #6666;
+}
+
+
+.toastPopUp .Toastify__toast-body div {
+  color: #060621;
+  font-size: 12px;
+}
+
+.toastPopUp button svg, .toastPopUp svg {
+  fill: #060621;
+}
+
+.toastPopUp [role="progressbar"] {
+  background-color: #060621; 
+}

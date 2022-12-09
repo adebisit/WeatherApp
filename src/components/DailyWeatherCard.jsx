@@ -10,7 +10,7 @@ function DailyWeatherCard({ weatherData }) {
                 <p className="font-light text-sm">{dt}</p>
             </div>
             <div className="w-1/3">
-                <div className="text-4xl text-center">
+                <div className="text-3xl text-center">
                     <MeasurementDisplay value={temp} variable='temperature' />
                 </div>
             </div>

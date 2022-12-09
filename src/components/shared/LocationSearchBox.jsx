@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react"
 import { FaSearch } from "react-icons/fa"
 import { MdOutlineLocationOn } from "react-icons/md"
 import { reverseGeoding } from "../../context/GeolocationActions"
+import { Oval } from "react-loader-spinner"
 
 
 const extractLocationInfo = (place) => {
@@ -34,8 +35,11 @@ const extractLocationInfo = (place) => {
 
 
 function LocationSearchBox({ exact, locationSelected, initialInput }) {
+    // eslint-disable-next-line
     const [location, setLocation] = useState(initialInput)
     const [keyword, setKeyword] = useState(initialInput?.formattedAddress ?? "")
+    const [getCurrentLocationLoading, setGetCurrentLocationLoading] = useState(false)
+
     const autoCompleteRef = useRef(null)
     const inputRef = useRef()
     const options = {
@@ -49,14 +53,16 @@ function LocationSearchBox({ exact, locationSelected, initialInput }) {
         autoCompleteRef.current.addListener("place_changed", async function () {
             const place = await autoCompleteRef.current.getPlace();
             const locationData = extractLocationInfo(place)
-            locationSelected(locationData)
+            setKeyword(place.formattedAddress)
             setLocation(locationData)
-           });
+            locationSelected(locationData)
+        });
         // eslint-disable-next-line
     }, [])
 
     const getCurrentGeolocation = async (e) => {
         e.preventDefault()
+        setGetCurrentLocationLoading(true)
         navigator.geolocation.getCurrentPosition(
             async (pos) => {
                 const data = await reverseGeoding({
@@ -68,12 +74,16 @@ function LocationSearchBox({ exact, locationSelected, initialInput }) {
                 } else {
                     const results = data.results[0]
                     const locationData = extractLocationInfo(results)
-                    // setKeyword(locationData.formattedAddress)
+                    setKeyword(locationData.formattedAddress)
+                    locationSelected(locationData)
                     setLocation(locationData)
-                    locationSelected(location)
                 }
+                setGetCurrentLocationLoading(false)
             },
-            () => { alert("Couldn't determine location")}
+            () => {
+                alert("Couldn't determine location")
+                setGetCurrentLocationLoading(false)
+            }
         )
     }
 
@@ -102,9 +112,20 @@ function LocationSearchBox({ exact, locationSelected, initialInput }) {
             <button
                     className="px-4 ml-3 rounded-lg"
                     style={{backgroundColor: "#171642"}}
+                    disabled={getCurrentLocationLoading}
                     onClick={getCurrentGeolocation}
             >
-                    <MdOutlineLocationOn color="white"/>
+                { getCurrentLocationLoading ? (
+                    <Oval
+                        height={12}
+                        width={12}
+                        color="white"
+                        wrapperClass="flex justify-center items-center"
+                        secondaryColor="white"
+                        strokeWidth={1}
+                        strokeWidthSecondary={1}
+                    />
+                ) : <MdOutlineLocationOn color="white"/> }
             </button>
         </div>
     )
