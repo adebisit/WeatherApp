@@ -19,7 +19,8 @@ function SavedWeatherCard({ state, countryCode, weatherData, removeFromSavedLoca
             <p className="font-thin text-sm">{main}</p>
           </div>
           <div className="text-left">
-            <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} width={80} alt={main} />
+          <img src={`/assets/weathericons/${icon}.svg`} alt="weather" style={{width: '60px', height: '60px'}}/>
+            {/* <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} width={80} alt={main} /> */}
           </div>
         </div>
         <div className="">

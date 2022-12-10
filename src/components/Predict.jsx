@@ -10,8 +10,8 @@ function Predict({ weatherData }) {
                 <p className="text-center text-4xl font-bold ">{main}</p>
                 <p className="text-center text-base">{description}</p>
             </div>
-            <div>
-                <img className="m-auto" src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt='temp' style={{height: '200px'}}/>
+            <div className="my-8">
+                <img className="m-auto" src={`/assets/weathericons/${icon}.svg`} alt='temp' style={{height: '200px'}}/>
             </div>
             <div className="flex w-5/6 mx-auto justify-between">
                 <div className="text-center">
